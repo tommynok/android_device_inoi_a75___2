@@ -7,11 +7,11 @@
 
 DEVICE_PATH := device/inoi_limited/INOI_A75_Elegance
 
+# Срочное принудительное определение (для обхода ошибки 902)
+BOARD_USES_VENDOR_BOOTIMAGE := true
+
 # For building with minimal manifest
 ALLOW_MISSING_DEPENDENCIES := true
-
-# Сначала определяем наличие Vendor Boot, чтобы не было ошибок на этапе lunch
-BOARD_USES_VENDOR_BOOTIMAGE := true
 
 # A/B
 AB_OTA_UPDATER := true
@@ -100,9 +100,12 @@ BOARD_INOI_LIMITED_DYNAMIC_PARTITIONS_SIZE := 9122611200
 TARGET_BOARD_PLATFORM := mt6789
 
 # Recovery & Vendor Boot Config
-# Эти флаги теперь идут ПОСЛЕ определения BOARD_USES_VENDOR_BOOTIMAGE
-BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
-BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
+# Используем обертку, чтобы системный board_config.mk не паниковал
+ifeq ($(BOARD_USES_VENDOR_BOOTIMAGE),true)
+  BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
+  BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
+endif
+
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
