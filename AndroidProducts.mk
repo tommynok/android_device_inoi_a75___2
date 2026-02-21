@@ -1,0 +1,14 @@
+#
+# Copyright (C) 2026 The Android Open Source Project
+# Copyright (C) 2026 SebaUbuntu's TWRP device tree generator
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+PRODUCT_MAKEFILES := \
+    $(LOCAL_DIR)/omni_INOI_A75_Elegance.mk
+
+COMMON_LUNCH_CHOICES := \
+    omni_INOI_A75_Elegance-user \
+    omni_INOI_A75_Elegance-userdebug \
+    omni_INOI_A75_Elegance-eng
