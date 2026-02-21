@@ -1,30 +1,11 @@
-#
-# Copyright (C) 2026 The Android Open Source Project
-# Copyright (C) 2026 SebaUbuntu's TWRP device tree generator
-#
-# SPDX-License-Identifier: Apache-2.0
-#
-
 DEVICE_PATH := device/inoi_limited/INOI_A75_Elegance
 
-# Срочное принудительное определение (для обхода ошибки 902)
+# Срочное принудительное определение для обхода ошибки 902
 BOARD_USES_VENDOR_BOOTIMAGE := true
+BOARD_USES_GENERIC_KERNEL_IMAGE := true
 
 # For building with minimal manifest
 ALLOW_MISSING_DEPENDENCIES := true
-
-# A/B
-AB_OTA_UPDATER := true
-AB_OTA_PARTITIONS += \
-    vbmeta_system \
-    vbmeta_vendor \
-    boot \
-    odm_dlkm \
-    vendor_dlkm \
-    system \
-    product \
-    system_ext \
-    vendor
 
 # Architecture
 TARGET_ARCH := arm64
@@ -41,34 +22,29 @@ TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := generic
 TARGET_2ND_CPU_VARIANT_RUNTIME := cortex-a55
 
-# APEX
-OVERRIDE_TARGET_FLATTEN_APEX := true
-
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := k6789v1_64
 TARGET_NO_BOOTLOADER := true
 
-# Display
-TARGET_SCREEN_DENSITY := 480
+# Platform
+TARGET_BOARD_PLATFORM := mt6789
 
 # Kernel
-BOARD_BOOTIMG_HEADER_VERSION := 4
+BOARD_BOOT_HEADER_VERSION := 4
 BOARD_KERNEL_BASE := 0x3fff8000
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_RAMDISK_OFFSET := 0x26f08000
-BOARD_KERNEL_TAGS_OFFSET := 0x07c88000
+BOARD_TAGS_OFFSET := 0x07c88000
 
-BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOTIMG_HEADER_VERSION)
+BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 BOARD_MKBOOTIMG_ARGS += --base $(BOARD_KERNEL_BASE)
 BOARD_MKBOOTIMG_ARGS += --pagesize $(BOARD_KERNEL_PAGESIZE)
 BOARD_MKBOOTIMG_ARGS += --ramdisk_offset $(BOARD_RAMDISK_OFFSET)
-BOARD_MKBOOTIMG_ARGS += --tags_offset $(BOARD_KERNEL_TAGS_OFFSET)
-BOARD_MKBOOTIMG_ARGS += --vendor_boot_header_version $(BOARD_BOOTIMG_HEADER_VERSION)
+BOARD_MKBOOTIMG_ARGS += --tags_offset $(BOARD_TAGS_OFFSET)
+BOARD_MKBOOTIMG_ARGS += --vendor_boot_header_version $(BOARD_BOOT_HEADER_VERSION)
 
 BOARD_KERNEL_IMAGE_NAME := Image
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
-TARGET_KERNEL_CONFIG := INOI_A75_Elegance_defconfig
-TARGET_KERNEL_SOURCE := kernel/inoi_limited/INOI_A75_Elegance
 
 # Kernel - prebuilt
 TARGET_FORCE_PREBUILT_KERNEL := true
@@ -90,25 +66,15 @@ BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 TARGET_COPY_OUT_VENDOR := vendor
 
-# Dynamic Partitions
-BOARD_SUPER_PARTITION_SIZE := 9126805504
-BOARD_SUPER_PARTITION_GROUPS := inoi_limited_dynamic_partitions
-BOARD_INOI_LIMITED_DYNAMIC_PARTITIONS_PARTITION_LIST := system system_ext vendor product vendor_dlkm odm_dlkm
-BOARD_INOI_LIMITED_DYNAMIC_PARTITIONS_SIZE := 9122611200
-
-# Platform
-TARGET_BOARD_PLATFORM := mt6789
-
 # Recovery & Vendor Boot Config
-# Используем обертку, чтобы системный board_config.mk не паниковал
-ifeq ($(BOARD_USES_VENDOR_BOOTIMAGE),true)
-  BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
-  BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
-endif
+TARGET_NO_RECOVERY := true
+BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
+BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
+TW_LOAD_VENDOR_BOOT_MODULES := true
 
+TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
-TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
 
 # Security patch level
 VENDOR_SECURITY_PATCH := 2099-12-31
