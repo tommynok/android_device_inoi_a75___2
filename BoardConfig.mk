@@ -48,11 +48,16 @@ BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 
 # Kernel - prebuilt
 TARGET_FORCE_PREBUILT_KERNEL := true
-ifeq ($(TARGET_FORCE_PREBUILT_KERNEL),true)
 TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
 TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/dtb.img
+
+# Параметры сборщика
 BOARD_MKBOOTIMG_ARGS += --dtb $(TARGET_PREBUILT_DTB)
-endif
+BOARD_INCLUDE_DTB_IN_BOOTIMG := true
+
+# Костыль для Ninja: явно указываем, что dtb.img берется из дерева устройства
+PRODUCT_COPY_FILES += \
+    $(TARGET_PREBUILT_DTB):dtb.img
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 262144
