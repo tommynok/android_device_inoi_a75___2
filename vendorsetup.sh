@@ -5,6 +5,3 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-add_lunch_combo twp_INOI_A75_Elegance-user
-add_lunch_combo twp_INOI_A75_Elegance-userdebug
-add_lunch_combo twp_INOI_A75_Elegance-eng
