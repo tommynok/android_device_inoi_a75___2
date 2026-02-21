@@ -5,6 +5,11 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+# Активация Vendor Boot на уровне продукта (решает ошибку 902)
+BOARD_USES_VENDOR_BOOTIMAGE := true
+BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := 67108864
+BOARD_USES_GENERIC_KERNEL_IMAGE := true
+
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
